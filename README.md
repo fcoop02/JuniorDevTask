@@ -1,0 +1,2 @@
+# JuniorDevTask
+Random name generator
