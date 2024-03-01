@@ -6,6 +6,12 @@ import {
   genrandomDate,
 } from "./utils.js";
 
+import { countryFeature, randomFeatureCoordinates } from "./geoLoc.js";
+
+/* croatia = countryFeature("croatia");
+
+randomCroatiaCoordinates = randomFeatureCoordinates(croatia); */
+
 export function genPerson(spol) {
   if (spol == "Muško") {
     const startDate = new Date("01/01/1924");
@@ -17,7 +23,7 @@ export function genPerson(spol) {
       DatumRodenja: birthday.toLocaleDateString("en-GB"),
       Godine: odrediGod(birthday, endDate),
       Spol: "Muško",
-      GeoLokacija: " ",
+      GeoLokacija: " " /* randomCroatiaCoordinates() */,
     };
     return personInfo;
   } else {
@@ -30,7 +36,7 @@ export function genPerson(spol) {
       DatumRodenja: birthday.toLocaleDateString("en-GB"),
       Godine: odrediGod(birthday, endDate),
       Spol: "Žensko",
-      GeoLokacija: " ",
+      GeoLokacija: " " /* randomCroatiaCoordinates() */,
     };
     return personInfo;
   }

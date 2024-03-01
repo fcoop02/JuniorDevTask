@@ -7,7 +7,7 @@ import { odrediSpol, genrandomDate } from "./utils.js";
   DatumRodenja: Date,
   Godine: Number,
   Spol: String,
-  GeoLokacija: GeolocationCoordinates,
+  GeoLokacija: GeolocationCoordinates(https://observablehq.com/@jeffreymorganio/random-coordinates-within-a-country),
 }; */
 
 const setOsoba = [];
