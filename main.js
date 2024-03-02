@@ -1,27 +1,39 @@
-import { genPerson } from "./genPerson.js";
-import { odrediSpol, genrandomDate } from "./utils.js";
-
-/* const personInfo = {
-  Ime: String,
-  Prezime: String,
-  DatumRodenja: Date,
-  Godine: Number,
-  Spol: String,
-  GeoLokacija: GeolocationCoordinates(https://observablehq.com/@jeffreymorganio/random-coordinates-within-a-country),
-}; */
+const genPerson = require("./genPerson");
+const { distance } = require("./geoLoc");
+const {
+  odrediSpol,
+  genrandomDate,
+  quickSort,
+  addFiveYears,
+} = require("./utils.js");
 
 const setOsoba = [];
 
-let spol;
-
 for (let i = 0; i <= 99; i++) {
-  spol = odrediSpol();
+  let spol = odrediSpol();
   setOsoba.push(genPerson(spol));
 }
-console.log(setOsoba);
+console.table(setOsoba);
+let min = distance(setOsoba[0].GeoLokacija[0], setOsoba[0].GeoLokacija[1]);
+const sortedSetOsoba = quickSort(setOsoba, "Prezime");
+sortedSetOsoba.forEach((element) => {
+  let a = element.Prezime + ", " + element.Ime;
+  if (distance(element.GeoLokacija[0], element.GeoLokacija[1]) < min) {
+    min = distance(element.GeoLokacija[0], element.GeoLokacija[1]);
+  }
+  console.log(a);
+});
 
-const startDate = new Date("01/01/1924");
-const endDate = new Date();
-console.log(startDate);
-console.log(endDate);
-console.log(genrandomDate(startDate, endDate));
+sortedSetOsoba.forEach((element) => {
+  if (distance(element.GeoLokacija[0], element.GeoLokacija[1]) == min) {
+    console.log(element);
+  }
+});
+
+const oldSetOsoba = Array.from(setOsoba);
+oldSetOsoba.forEach((element) => {
+  element.Godine = element.Godine + 5;
+  const date = new Date(addFiveYears(element.DatumRodenja));
+  element.DatumRodenja = date.toLocaleDateString("en-GB");
+});
+console.table(oldSetOsoba);

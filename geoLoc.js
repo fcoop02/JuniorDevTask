@@ -1,13 +1,10 @@
-import * as d3 from "./node_modules/d3/dist/d3.js";
-/* import { default as geoBounds } from "./node_modules/d3-geo/src/bounds.js"; */
-import * as topojson from "./node_modules/topojson-client/dist/topojson-client.js";
-const response = await fetch("./countries-110m.json");
-const world = await response.json();
-console.log(world);
+const d3 = require("d3");
+const topojson = require("topojson-client");
+const world = require("./countries-110m.json");
 
-/*countries = topojson.feature(world, world.objects.countries);*/
+countries = topojson.feature(world, world.objects.countries);
 
-export function randomBoundingBoxCoordinates(boundingBox) {
+function randomBoundingBoxCoordinates(boundingBox) {
   const randomLongitude = d3.randomUniform(
     boundingBox[0][0],
     boundingBox[1][0] + 360 * (boundingBox[1][0] < boundingBox[0][0])
@@ -16,7 +13,7 @@ export function randomBoundingBoxCoordinates(boundingBox) {
   return () => [randomLongitude(), randomLatitude()];
 }
 
-export function randomFeatureCoordinates(feature) {
+exports.randomFeatureCoordinates = (feature) => {
   const featureBoundingBox = d3.geoBounds(feature);
   const randomCoordinates = randomBoundingBoxCoordinates(featureBoundingBox);
   return () => {
@@ -26,14 +23,30 @@ export function randomFeatureCoordinates(feature) {
     } while (!d3.geoContains(feature, p));
     return p;
   };
+};
+
+exports.countryFeature = (countryName) => {
+  return countries.features.filter((f) => f.properties.name === countryName)[0];
+};
+
+function toRad(x) {
+  return (x * Math.PI) / 180;
 }
 
-export function countryFeature(countryName) {
-  return 0; /* countries.features.filter((f) => f.properties.name === countryName)[0]; */
-}
+exports.distance = (lat, long) => {
+  const iblerov = [45.813179, 15.98514];
+  const r = 6371;
+  const dLat = toRad(iblerov[0] - lat);
+  const dLon = toRad(iblerov[1] - long);
+  const lat1 = toRad(lat);
+  const lat2 = toRad(iblerov[0]);
 
-const croatia = countryFeature("croatia");
+  const x =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
 
-randomCroatiaCoordinates = randomFeatureCoordinates(croatia);
+  const y = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 
-randomCroatiaCoordinates();
+  const z = r * y;
+  return z;
+};
