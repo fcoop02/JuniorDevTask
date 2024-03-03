@@ -13,13 +13,13 @@ console.table(setOsoba);
 
 let min = distance(setOsoba[0].GeoLokacija[0], setOsoba[0].GeoLokacija[1]);
 
+console.log("Sortirani set osoba:");
 const sortedSetOsoba = quickSort(setOsoba, "Prezime");
 sortedSetOsoba.forEach((element) => {
   let a = element.Prezime + ", " + element.Ime;
   if (distance(element.GeoLokacija[0], element.GeoLokacija[1]) < min) {
     min = distance(element.GeoLokacija[0], element.GeoLokacija[1]);
   }
-  console.log("Sortirani set osoba:");
   console.log(a);
 });
 
