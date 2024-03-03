@@ -1,38 +1,38 @@
 const genPerson = require("./genPerson");
 const { distance } = require("./geoLoc");
-const { odrediSpol, quickSort, addFiveYears } = require("./utils.js");
+const { MaleFemale, quickSort, addFiveYears } = require("./utils.js");
 
-const setOsoba = [];
+const arrPerson = [];
 
 for (let i = 0; i <= 99; i++) {
-  let spol = odrediSpol();
-  setOsoba.push(genPerson(spol));
+  let s = MaleFemale();
+  arrPerson.push(genPerson(s));
 }
 console.log("Kreirani set osoba:");
-console.table(setOsoba);
+console.table(arrPerson);
 
-let min = distance(setOsoba[0].GeoLokacija[0], setOsoba[0].GeoLokacija[1]);
+let min = distance(arrPerson[0].geoLoc[0], arrPerson[0].geoLoc[1]);
 
 console.log("Sortirani set osoba:");
-const sortedSetOsoba = quickSort(setOsoba, "Prezime");
-sortedSetOsoba.forEach((element) => {
-  let a = element.Prezime + ", " + element.Ime;
-  if (distance(element.GeoLokacija[0], element.GeoLokacija[1]) < min) {
-    min = distance(element.GeoLokacija[0], element.GeoLokacija[1]);
+const sortedarrPerson = quickSort(arrPerson, "lastName");
+sortedarrPerson.forEach((element) => {
+  let a = element.lastName + ", " + element.firstName;
+  if (distance(element.geoLoc[0], element.geoLoc[1]) < min) {
+    min = distance(element.geoLoc[0], element.geoLoc[1]);
   }
   console.log(a);
 });
 
-sortedSetOsoba.forEach((element) => {
-  if (distance(element.GeoLokacija[0], element.GeoLokacija[1]) == min) {
+sortedarrPerson.forEach((element) => {
+  if (distance(element.geoLoc[0], element.geoLoc[1]) == min) {
     console.log("Osoba najbliže Iblerovom trgu 10: ", element);
   }
 });
 
-const oldSetOsoba = Array.from(setOsoba);
-oldSetOsoba.forEach((element) => {
-  element.Godine = element.Godine + 5;
-  const date = new Date(addFiveYears(element.DatumRodenja));
-  element.DatumRodenja = date.toLocaleDateString("en-GB");
+const oldArrPerson = Array.from(arrPerson);
+oldArrPerson.forEach((element) => {
+  element.age = element.age + 5;
+  const date = new Date(addFiveYears(element.dateOfBirth));
+  element.dateOfBirth = date.toLocaleDateString("en-GB");
 });
-console.table(oldSetOsoba);
+console.table(oldArrPerson);

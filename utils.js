@@ -1,4 +1,4 @@
-const zenskaImena = [
+const femaleNames = [
   "Mia",
   "Nika",
   "Lucija",
@@ -11,7 +11,7 @@ const zenskaImena = [
   "Dora",
 ];
 
-const muskaImena = [
+const maleNames = [
   "Luka",
   "Jakov",
   "David",
@@ -24,7 +24,7 @@ const muskaImena = [
   "Matej",
 ];
 
-const najcescaPrezimena = [
+const commonLastName = [
   "Knežević",
   "Horvat",
   "Kovačević",
@@ -46,30 +46,30 @@ const najcescaPrezimena = [
   "Martinović",
   "Petrović",
 ];
-exports.odrediSpol = () => {
-  let spol;
+exports.MaleFemale = () => {
+  let s;
   if (Math.floor(Math.random() * 2) < 1) {
-    spol = "Muško";
+    s = "Muško";
   } else {
-    spol = "Žensko";
+    s = "Žensko";
   }
-  return spol;
+  return s;
 };
 
-exports.odrediMuskoIme = () => {
-  let ime = muskaImena[Math.floor(Math.random() * muskaImena.length)];
-  return ime;
+exports.genMaleName = () => {
+  let name = maleNames[Math.floor(Math.random() * maleNames.length)];
+  return name;
 };
 
-exports.odrediZenskoIme = () => {
-  let ime = zenskaImena[Math.floor(Math.random() * zenskaImena.length)];
-  return ime;
+exports.genFemaleName = () => {
+  let name = femaleNames[Math.floor(Math.random() * femaleNames.length)];
+  return name;
 };
 
-exports.odrediPrezime = () => {
-  let prezime =
-    najcescaPrezimena[Math.floor(Math.random() * najcescaPrezimena.length)];
-  return prezime;
+exports.genLastName = () => {
+  let lastName =
+    commonLastName[Math.floor(Math.random() * commonLastName.length)];
+  return lastName;
 };
 
 exports.genrandomDate = (startDate, endDate) => {
@@ -79,7 +79,7 @@ exports.genrandomDate = (startDate, endDate) => {
   return randDate;
 };
 
-exports.odrediGod = (birthday, now) => {
+exports.genYear = (birthday, now) => {
   const diff = now.getTime() - birthday.getTime();
   const currentAge = Math.floor(diff / 31557600000);
   return currentAge;
@@ -90,7 +90,7 @@ exports.swap = (array) => {
   return array;
 };
 
-function quickSort(array, prezime) {
+function quickSort(array, lastName) {
   if (array.length <= 1) return array;
 
   const pivot = array[0];
@@ -98,11 +98,11 @@ function quickSort(array, prezime) {
   const right = [];
 
   for (let i = 1; i < array.length; i++) {
-    if (array[i][prezime] < pivot[prezime]) left.push(array[i]);
+    if (array[i][lastName] < pivot[lastName]) left.push(array[i]);
     else right.push(array[i]);
   }
 
-  return [...quickSort(left, prezime), pivot, ...quickSort(right, prezime)];
+  return [...quickSort(left, lastName), pivot, ...quickSort(right, lastName)];
 }
 
 exports.addFiveYears = (date) => {
